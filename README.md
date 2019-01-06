@@ -1,5 +1,13 @@
 # DPlayer-xlsx
-xlsx-Database DPlayer 
+
+>  🀀󻀀 xlsx-Database Player
+
+![](https://img.shields.io/badge/DPlayer-1.25.0-orange.svg)
+![](https://img.shields.io/badge/Bootsrtap-3.3.7-blue.svg)
+![](https://img.shields.io/badge/JS_xlsx-2013-green.svg)
+![](https://img.shields.io/badge/OwO-1.0-white.svg)
+![](https://img.shields.io/badge/JS_color-2.0.5-red.svg)
+ 
 ## 使用说明
 数据在`package/data.xlsx`中，为`Office Excel`文件
 
@@ -39,3 +47,9 @@ url和title的值小于10时需要在前面加数字`0`，以保证资源正常�
 表格文件地址在`package/s.js`第`21`行，直接替换引号内的地址即可
 
 弹幕以及评论服务器地址在`package/s.js`第`8、9`行，根据需要自行修改
+
+## Author
+
+**biliblog** © [Menhood](https://github.com/menhood), Released under the [MIT](./LICENSE) License.<br>
+
+> Blog [@Menhood](https://menhood.wang) · GitHub [@Menhood](https://github.com/Menhood) · Twitter [@Menhoodt](https://twitter.com/menhoodt) · Telegram Channel [@Menhood](https://t.me/Menhood)
