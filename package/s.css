@@ -1,0 +1,25 @@
+
+.list-group-item{
+    cursor:pointer;
+}
+#playlist{
+    max-height: 535px;
+    overflow-y: scroll;
+    padding-left: 0;
+}
+
+#comment{
+    display: none;
+}
+@media (min-width: 992px){
+    .nav> li:hover .dropdown-menu {display: block;}
+}
+@media (max-width: 992px){
+
+.list-group-item{
+    cursor:pointer;
+    float: left;
+    margin: 5px;
+}
+
+}

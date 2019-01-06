@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <!-- 修改方式： 查看说明文件 -->
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="renderer" content="webkit">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <title >DPlayer Videos</title>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <link href="package/bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <script src="package/jquery.min.js"></script>
+        <script src="package/bootstrap/bootstrap.min.js"></script>
+        <script src="package/js-xlsx/xlsx.full.min.js"></script>
+        <script src="package/js-xlsx/shim.js"></script>
+        <script src="package/js-xlsx/iemagic.js"></script>
+        <script src="package/js-xlsx/jszip.js"></script>
+        <link rel="stylesheet" href="package/dplayer/DPlayer.min.css" />
+        <script src="package/md5.min.js"></script>
+        <script src="package/jscolor/jscolor.js"></script>
+        <link rel="stylesheet" href="package/OwO/OwO.min.css">        
+        <script src="package/OwO/OwO.min.js"></script>
+        <link href="package/s.css" rel="stylesheet" />
+        <script src="https://api.menhood.wang/getcip/getcipv2.php"></script>
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                            </button> <a class="navbar-brand" href="/">Videos</a> 
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <!--分类菜单开始--><ul class="nav navbar-nav" id="navhtml" >
+                                
+                                
+                                
+                            </ul><!--分类菜单结束-->
+                            <ul class="nav navbar-nav navbar-right">
+                                
+                                <li> <a href="https://menhood.320.io/download.html">下载源码</a> 
+                                </li>
+                                <li> <a href="http://menhood.wang">主站</a> 
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="row clearfix">
+                        <div class="col-md-12 column" id="indexhtml" ></div>
+                        <div class="col-md-8 column">
+                            <div id="dplayer">点击导航栏目录可加载播放器</div>
+                            <br>
+                            <p id="time"></p>
+                            <p id="desc"></p>
+                        </div>
+                        <div class="col-md-4 column">
+                            <ul id="playlist"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="comment" class="row clearfix" >
+                <div class="col-md-8 column">
+                    <br>
+                    <div class="form-inline">
+                        <label for="name" class="form-inline" >名字
+                        <input id="name" class="form-control name" placeholder="Name"></label>
+                    
+                    <!--<div class="form-group"><label for="email">邮箱</label><input id="email" class="form-control email" type="Email" placeholder="email"></div>-->
+                    
+                        <label for="color" class="form-inline" >颜色
+                        <input id="color" class="form-control jscolor" value="222"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="text">评论内容</label>
+                        <textarea id="text" class="form-control"></textarea>
+                    </div>
+                    <div class="OwO"></div>
+                    <div style="position:relative;margin: 10px 0 0;">
+                        <button id="submit" onclick="submit()" class="btn btn-primary">提交评论</button>
+                        <!--<button id="getcomments" onclick="getcomments()" class="btn btn-default">获取评论数据</button>-->
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-8 column">
+                    <ul id="comments" class="list-group" style="padding:0;margin-top:10px;max-height:500px;overflow-y:scroll;">暂无评论</ul>
+                </div>
+            </div>
+        </div>
+        <script src="package/dplayer/DPlayer.min.js"></script>
+        <script src="package/s.js"></script>
+    </body>
+
+</html>

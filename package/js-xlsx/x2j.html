@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>xls2json</title>
+        <script src="https://ddns.menhood.wang:2233/package/js-xlsx/xlsx.full.min.js"></script>
+        <script src="https://ddns.menhood.wang:2233/package/js-xlsx/shim.js"></script>
+        <script src="https://ddns.menhood.wang:2233/package/js-xlsx/iemagic.js"></script>
+        <script src="https://ddns.menhood.wang:2233/package/js-xlsx/jszip.js"></script>
+        <script src="https://ddns.menhood.wang:2233/package/jquery.min.js"></script> 
+    </head>
+    
+    <body>
+        <div id="demo"></div>
+        <button onclick="getLexicon()">加载</button>
+        <script>
+        var ws;
+        //表格文件地址
+        var url = "https://ddns.menhood.wang:2233/package/data.xlsx";
+        var oReq = new XMLHttpRequest();
+        var lexicon= new Array();
+        var xlsarr= new Array();;
+        oReq.open("GET", url, true);
+        oReq.responseType = "arraybuffer";
+ 
+        oReq.onload = function(e) {
+            var arraybuffer = oReq.response;
+            /* convert data to binary string */
+            var data = new Uint8Array(arraybuffer);
+            var arr = new Array();
+            for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+            var bstr = arr.join("");
+ 
+            /* Call XLSX */
+            //获取表格对象
+            var workbook = XLSX.read(bstr, {type:"binary"});
+            ws = workbook.Sheets['alldata'];
+            var reg=/[1-9][0-9]*/g;
+            var max=parseInt(ws['!ref'].match(reg)[1])+1;
+            for (var i=2;i<max;i++) {
+                var va=ws['A'+i]['v'];
+                var vb=ws['B'+i]['v'];
+                var vc=ws['C'+i]['v'];
+                    xlsarr.push({"id": va,"c": vb,"name":vc})
+                }
+            console.log(workbook.Sheets['alldata']);
+            console.log(xlsarr);
+        }
+        oReq.send();
+        
+        </script>
+
+    </body>
+</html>
