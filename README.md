@@ -1,11 +1,11 @@
 # DPlayer-xlsx
 
->  🀀󻀀 xlsx-Database Player
+>  🎦 xlsx-Database Player
 
 ![](https://img.shields.io/badge/DPlayer-1.25.0-orange.svg)
 ![](https://img.shields.io/badge/Bootsrtap-3.3.7-blue.svg)
 ![](https://img.shields.io/badge/JS_xlsx-2013-green.svg)
-![](https://img.shields.io/badge/OwO-1.0-white.svg)
+![](https://img.shields.io/badge/OwO-1.0-black.svg)
 ![](https://img.shields.io/badge/JS_color-2.0.5-red.svg)
  
 ## 使用说明

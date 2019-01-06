@@ -2,6 +2,9 @@
 .list-group-item{
     cursor:pointer;
 }
+.thumbnail> img {
+    min-height: 170px;
+}
 #playlist{
     max-height: 535px;
     overflow-y: scroll;
@@ -13,6 +16,7 @@
 }
 @media (min-width: 992px){
     .nav> li:hover .dropdown-menu {display: block;}
+    
 }
 @media (max-width: 992px){
 
