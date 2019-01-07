@@ -1,8 +1,7 @@
-/*var data;
-$.getJSON("/package/data.json", function(d){
-    data = d;
-})*/
-
+/*
+* DPlayer-xlsx
+* Menhood
+*/
 //声明全局变量
 var first = true;
 var configurl = 'package/config.json';
@@ -106,7 +105,9 @@ function loadindexhtml(data) { //打印播放列表
             });
 
             indexarr.push({
-                "html": '<div class="col-md-4"><style>@media (min-width: 1000px){.thumbnail{height:430px!important;}.loaddp{position: absolute;bottom: 30px;}}</style><div class="thumbnail"><img alt="300x169" src="' + o.pic + '" /><div class="caption"><h3>' + o.name + '</h3><p style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;" title="' + o.desc + '" >&nbsp;&nbsp;&nbsp;&nbsp;' + o.desc + '</p><p class="loaddp"><a class="btn btn-primary" href="javascript:void(0);" onclick="aclick(' + startid + ',' + o.max + ')"  >观看</a></p></div></div></div>'
+                "html": '<div class="col-md-4"><style>@media (min-width: 1000px){.thumbnail{height:430px!important;}.loaddp{position: absolute;bottom: 30px;}}</style><div class="thumbnail"><img alt="300x169" src="' + o.pic + '" /><div class="caption"><h3>' + o.name + '</h3><p style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;" title="' + o.desc + '" >&nbsp;&nbsp;&nbsp;&nbsp;' + o.desc + '</p><p class="loaddp"><a class="btn btn-primary" href="javascript:void(0);" id="video' + startid + '" onclick="aclick(' + startid + ',' + o.max + ')"  >观看</a></p></div></div></div>',
+                "videourl":o.url+o.suffix,
+                "videoid":"video"+startid
             });
         }
         lastid = i + 1;
@@ -115,7 +116,9 @@ function loadindexhtml(data) { //打印播放列表
     };
 
     indexarr.push({
-        "html": '<div class="col-md-4"><style>@media (min-width: 1000px){.thumbnail{height:430px!important;}.loaddp{position: absolute;bottom: 30px;}}</style><div class="thumbnail"><img alt="300x169" src="' + data[lastid].pic + '" /><div class="caption"><h3>' + data[lastid].name + '</h3><p style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;" title="' + data[lastid].desc + '" >&nbsp;&nbsp;&nbsp;&nbsp;' + data[lastid].desc + '</p><p class="loaddp"><a class="btn btn-primary" href="javascript:void(0);" onclick="aclick(' + data[lastid].id + ',' + data[lastid].max + ')"  >观看</a></p></div></div></div>'
+        "html": '<div class="col-md-4"><style>@media (min-width: 1000px){.thumbnail{height:430px!important;}.loaddp{position: absolute;bottom: 30px;}}</style><div class="thumbnail"><img alt="300x169" src="' + data[lastid].pic + '" /><div class="caption"><h3>' + data[lastid].name + '</h3><p style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;" title="' + data[lastid].desc + '" >&nbsp;&nbsp;&nbsp;&nbsp;' + data[lastid].desc + '</p><p class="loaddp"><a class="btn btn-primary" href="javascript:void(0);" id="video' + startid + '" onclick="aclick(' + data[lastid].id + ',' + data[lastid].max + ')"  >观看</a></p></div></div></div>',
+        "videourl":data[lastid].url+data[lastid].suffix,
+        "videoid":"video"+startid
     });
     var indexhtml = '';
 
@@ -140,6 +143,9 @@ function loadindexhtml(data) { //打印播放列表
 
     document.getElementById('navhtml').innerHTML = category;
     document.getElementById('indexhtml').innerHTML = indexhtml;
+    for (var i = indexarr.length - 1; i > indexarr.length - 7; --i) {
+        getstatus(indexarr[i].videourl,indexarr[i].videoid);
+    }
     $("#container").fadeIn(800);
     console.log('视频列表加载完成');
 };
@@ -471,3 +477,28 @@ var OwO_demo = new OwO({
     width: '100%',
     maxHeight: '250px'
 });
+
+function getstatus(url,id){
+    id="#"+String(id);
+	$.ajax({
+            async: true,
+            type: "GET",
+            dataType: "text",
+            url: "https://api.menhood.wang/getstatus/",
+            data: {
+                "url": url
+            },
+            success: function (result) {
+                console.log(result);
+                if (result == 200 || result == 301 || result == 302) {
+                    console.log('Server is UP');
+					$(id).attr("class","btn btn-success");
+                }else{
+					$(id).attr("class","btn btn-danger");
+				};
+            },
+            error: function () {
+                console.log('Ajax Get Error!');
+            }
+        });
+}
