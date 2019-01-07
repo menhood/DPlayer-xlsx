@@ -121,7 +121,7 @@ function loadindexhtml(data) { //打印播放列表
         "videoid":"video"+startid
     });
     var indexhtml = '';
-
+	//渲染首页html代码，更改此处的 7 可调整首页格子数量，默认为6条
     for (var i = indexarr.length - 1; i > indexarr.length - 7; --i) {
         indexhtml = indexhtml + indexarr[i].html;
     }
@@ -143,6 +143,7 @@ function loadindexhtml(data) { //打印播放列表
 
     document.getElementById('navhtml').innerHTML = category;
     document.getElementById('indexhtml').innerHTML = indexhtml;
+	//获取资源服务器状态，修改格子按钮颜色
     for (var i = indexarr.length - 1; i > indexarr.length - 7; --i) {
         getstatus(indexarr[i].videourl,indexarr[i].videoid);
     }
