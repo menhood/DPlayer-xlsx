@@ -50,6 +50,6 @@ url和title的值小于10时需要在前面加数字`0`，以保证资源正常�
 
 ## Author
 
-**biliblog** © [Menhood](https://github.com/menhood), Released under the [MIT](./LICENSE) License.<br>
+**DPlayer-xlsx** © [Menhood](https://github.com/menhood), Released under the [MIT](./LICENSE) License.<br>
 
 > Blog [@Menhood](https://menhood.wang) · GitHub [@Menhood](https://github.com/Menhood) · Twitter [@Menhoodt](https://twitter.com/menhoodt) · Telegram Channel [@Menhood](https://t.me/Menhood)
