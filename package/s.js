@@ -1,10 +1,10 @@
 /*
-* DPlayer-xlsx
-* Menhood
-*/
+ * DPlayer-xlsx
+ * Menhood
+ * http://menhood.wang
+ */
 //声明全局变量
-var first = true;
-var configurl = 'package/config.json';
+var first = true;//是否为第一次访问
 var commentapi = "https://dans.mdh.red/v3/"; //评论提交服务器地址
 var dplayerapi = "https://dans.mdh.red/"; //弹幕服务器地址
 var commentsdata; //评论数据
@@ -13,19 +13,16 @@ var lurl = window.location.href; //当前页面url
 var commentid; //评论页ID
 var title = ''; //页面标题
 var data; //xlsx数据
-//根据邮箱获取头像，暂未开发
-//var gravatar = md5(email);
-//var gravatarurl = 'https://cn.gravatar.com/avatar/' + gravatar;
-
 var ws; //worksheet 存储xlsx数组
 var xlsxurl = "./package/data.xlsx"; //表格文件地址
+//加载数据并处理
 console.log('xlsx正在加载');
 var oReq = new XMLHttpRequest();
 var lexicon = new Array();
 var xlsarr = new Array();;
 oReq.open("GET", xlsxurl, true);
 oReq.responseType = "arraybuffer";
-
+//xlsx处理函数
 oReq.onload = function(e) {
     var arraybuffer = oReq.response;
     /* convert data to binary string */
@@ -39,9 +36,10 @@ oReq.onload = function(e) {
     var workbook = XLSX.read(bstr, {
         type: "binary"
     });
-    ws = workbook.Sheets['alldata'];
-    var reg = /[1-9][0-9]*/g;
-    var max = parseInt(ws['!ref'].match(reg)[1]) + 1;
+    ws = workbook.Sheets['alldata'];//获取表名为alldata的数据表
+    var reg = /[1-9][0-9]*/g;//正则匹配数字
+    var max = parseInt(ws['!ref'].match(reg)[1]) + 1;//最大行数
+    /*循环获取A到J列的内容并构建数组*/
     for (var i = 2; i < max; i++) {
         var va = ws['A' + i]['v'];
         var vb = ws['B' + i]['v'];
@@ -81,56 +79,64 @@ oReq.onload = function(e) {
     loadindexhtml(xlsarr);
 }
 oReq.send();
-data = xlsarr;
-var navhtml = [];
-var indexarr = [];
 
-function loadindexhtml(data) { //打印播放列表
+data = xlsarr;//所有数据
+var navhtml = [];//导航栏数组
+var indexarr = [];//首页格子数组
+//载入并处理数据
+function loadindexhtml(data) { 
+    //打印播放列表
     console.log('开始加载视频列表...');
     //动画
     $("#container").fadeOut(800);
     var lastid;
-
+    //遍历数组内容进行处理
     for (var i = 0; i < data.length - 1; i++) {
-        var u = data[i - 1];
-        var o = data[i];
-        var p = data[i + 1];
-        var startid = data[i].id - data[i].max + 1;
+        var u = data[i - 1];//前一行数组
+        var o = data[i];//当前数组
+        var p = data[i + 1];//下一行数组
+        var startid = data[i].id - data[i].max + 1;//当前数组起始id
         if (o.name == p.name) {
-            continue;
+            continue;//如果名称相同将继续
         } else {
+            //导航栏数组
             navhtml.push({
                 "html": "<li> <a href=\"javascript:void(0)\" onclick=\"aclick(" + startid + "," + o.max + ")\" >" + o.name + "</a></li>",
                 "category": o.category
             });
-
+            //首页格子数组
             indexarr.push({
                 "html": '<div class="col-md-4"><style>@media (min-width: 1000px){.thumbnail{height:430px!important;}.loaddp{position: absolute;bottom: 30px;}}</style><div class="thumbnail"><img alt="300x169" src="' + o.pic + '" /><div class="caption"><h3>' + o.name + '</h3><p style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;" title="' + o.desc + '" >&nbsp;&nbsp;&nbsp;&nbsp;' + o.desc + '</p><p class="loaddp"><a class="btn btn-primary" href="javascript:void(0);" id="video' + startid + '" onclick="aclick(' + startid + ',' + o.max + ')"  >观看</a></p></div></div></div>',
-                "videourl":o.url+o.suffix,
-                "videoid":"video"+startid
+                "videourl": o.url + o.suffix,
+                "videoid": "video" + startid
             });
         }
-        lastid = i + 1;
-
-
+        lastid = i + 1;//最后一个数组的起始id
     };
-
+    //导航栏数组插入最后一个数组
+    navhtml.push({
+        "html": "<li> <a href=\"javascript:void(0)\" onclick=\"aclick(" + startid + "," + data[lastid].max + ")\" >" + data[lastid].name + "</a></li>",
+        "category": data[lastid].category
+    });
+    //首页格子数组插入最后一个数组
     indexarr.push({
         "html": '<div class="col-md-4"><style>@media (min-width: 1000px){.thumbnail{height:430px!important;}.loaddp{position: absolute;bottom: 30px;}}</style><div class="thumbnail"><img alt="300x169" src="' + data[lastid].pic + '" /><div class="caption"><h3>' + data[lastid].name + '</h3><p style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;" title="' + data[lastid].desc + '" >&nbsp;&nbsp;&nbsp;&nbsp;' + data[lastid].desc + '</p><p class="loaddp"><a class="btn btn-primary" href="javascript:void(0);" id="video' + startid + '" onclick="aclick(' + data[lastid].id + ',' + data[lastid].max + ')"  >观看</a></p></div></div></div>',
-        "videourl":data[lastid].url+data[lastid].suffix,
-        "videoid":"video"+startid
+        "videourl": data[lastid].url + data[lastid].suffix,
+        "videoid": "video" + startid
     });
+    
     var indexhtml = '';
-	//渲染首页html代码，更改此处的 7 可调整首页格子数量，默认为6条
+    //渲染首页html代码，更改此处的 7 可调整首页格子数量，默认为6条
     for (var i = indexarr.length - 1; i > indexarr.length - 7; --i) {
         indexhtml = indexhtml + indexarr[i].html;
     }
 
-    navhtml = getnav(navhtml);
-    var category = '';
-    var navlisthtml = '';
+    navhtml = getnav(navhtml);//处理重复数据
+    var category = '';//最终html
+    var navlisthtml = '';//临时存储数据
 
     for (var i = 0; i < navhtml.length; i++) {
+        //如果导航栏数组大于零，进行遍历html数组内容
         if (navhtml[i].html.length > 0) {
             for (var j = 0; j < navhtml[i].html.length; j++) {
                 navlisthtml = navlisthtml + navhtml[i]['html'][j]
@@ -143,9 +149,9 @@ function loadindexhtml(data) { //打印播放列表
 
     document.getElementById('navhtml').innerHTML = category;
     document.getElementById('indexhtml').innerHTML = indexhtml;
-	//获取资源服务器状态，修改格子按钮颜色
+    //获取资源服务器状态，修改格子按钮颜色
     for (var i = indexarr.length - 1; i > indexarr.length - 7; --i) {
-        getstatus(indexarr[i].videourl,indexarr[i].videoid);
+        getstatus(indexarr[i].videourl, indexarr[i].videoid);
     }
     $("#container").fadeIn(800);
     console.log('视频列表加载完成');
@@ -154,7 +160,9 @@ function loadindexhtml(data) { //打印播放列表
 //返回顶部
 
 function totop() {
-    $("html, body").scrollTop(0).animate({scrollTop: $("body").offset().top},800);
+    $("html, body").scrollTop(0).animate({
+        scrollTop: $("body").offset().top
+    }, 800);
 }
 //分类整理
 
@@ -358,7 +366,9 @@ function switchDP(vid, vurl, suffix, desc, time, category, title, addition, pic)
     document.getElementById('comments').innerHTML = '暂无评论';
     getcomments();
     console.log('评论加载完成');
-setTimeout(function() {totop();}, 500); 
+    setTimeout(function() {
+        totop();
+    }, 500);
     $("#container").fadeIn(300);
 }
 
@@ -479,27 +489,27 @@ var OwO_demo = new OwO({
     maxHeight: '250px'
 });
 
-function getstatus(url,id){
-    id="#"+String(id);
-	$.ajax({
-            async: true,
-            type: "GET",
-            dataType: "text",
-            url: "https://api.menhood.wang/getstatus/",
-            data: {
-                "url": url
-            },
-            success: function (result) {
-                console.log(result);
-                if (result == 200 || result == 301 || result == 302) {
-                    console.log('Server is UP');
-					$(id).attr("class","btn btn-success");
-                }else{
-					$(id).attr("class","btn btn-danger");
-				};
-            },
-            error: function () {
-                console.log('Ajax Get Error!');
-            }
-        });
+function getstatus(url, id) {
+    id = "#" + String(id);
+    $.ajax({
+        async: true,
+        type: "GET",
+        dataType: "text",
+        url: "https://api.menhood.wang/getstatus/",
+        data: {
+            "url": url
+        },
+        success: function(result) {
+            console.log(result);
+            if (result == 200 || result == 301 || result == 302) {
+                console.log('Server is UP');
+                $(id).attr("class", "btn btn-success");
+            } else {
+                $(id).attr("class", "btn btn-danger");
+            };
+        },
+        error: function() {
+            console.log('Ajax Get Error!');
+        }
+    });
 }
