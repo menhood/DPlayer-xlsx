@@ -114,8 +114,9 @@ function loadindexhtml(data) {
         lastid = i + 1;//最后一个数组的起始id
     };
     //导航栏数组插入最后一个数组
+    var laststartid=parseInt(startid)+1;
     navhtml.push({
-        "html": "<li> <a href=\"javascript:void(0)\" onclick=\"aclick(" + startid + "," + data[lastid].max + ")\" >" + data[lastid].name + "</a></li>",
+        "html": "<li> <a href=\"javascript:void(0)\" onclick=\"aclick(" + laststartid + "," + data[lastid].max + ")\" >" + data[lastid].name + "</a></li>",
         "category": data[lastid].category
     });
     //首页格子数组插入最后一个数组
