@@ -5,8 +5,8 @@
  */
 //声明全局变量
 var first = true;//是否为第一次访问
-var commentapi = "https://http://api.menhood.wang/dplayer/v3/"; //评论提交服务器地址
-var dplayerapi = "https://http://api.menhood.wang/dplayer/"; //弹幕服务器地址
+var commentapi = "https://api.menhood.wang/dplayer/v3/"; //评论提交服务器地址
+var dplayerapi = "https://api.menhood.wang/dplayer/"; //弹幕服务器地址
 var commentsdata; //评论数据
 var commentshtml = ''; //评论列表
 var lurl = window.location.href; //当前页面url
